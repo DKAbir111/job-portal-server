@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { verifyToken } = require('../middleware/verification')
 
 const createJob = (jobCollection) => {
 
@@ -9,7 +10,7 @@ const createJob = (jobCollection) => {
         res.send(result)
     })
 
-    router.get('/jobs', async (req, res) => {
+    router.get('/jobs', verifyToken, async (req, res) => {
         const allJobs = await jobCollection.find().toArray()
         res.send(allJobs)
     })
